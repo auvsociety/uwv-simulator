@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+	<arg name="environment" default="sauvc_pool"/>
+
+	<arg name="show_task4_balls" default="false" if="$(eval arg('environment')=='sauvc_pool')"/>
+	<arg name="debug" default="false"/>
+	<arg name="gui" default="true"/>
+	<arg name="paused" default="true"/>
+	<arg name="use_sim_time" default="true"/>
+	<arg name="verbose" default="true"/>
+	<arg name="world_name" value="$(find uwv_env)/worlds/sauvc_pool.world" if="$(eval arg('environment')=='sauvc_pool')"/>
+
+	<!-- Launching the world -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(arg world_name)"/>
+		<arg name="debug" value="$(arg debug)"/>
+		<arg name="gui" value="$(arg gui)"/>
+		<arg name="paused" value="$(arg paused)"/>
+		<arg name="use_sim_time" value="$(arg use_sim_time)"/>
+		<arg name="verbose" value="$(arg verbose)"/>
+	</include>
+	
+	<group ns="sauvc_pool" if="$(eval arg('environment')=='sauvc_pool')">
+    	<param name="q_gate_description" 
+		 	command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/q_gate.xacro" />
+
+		<node name="spawn_q_gate" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model q_gate -param q_gate_description -x 8.5 -y -15 -Y 1.5708"/> 
+	
+		<param name="task1_gate_desc" 
+			command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/task1_gate.xacro" />
+
+		<node name="spawn_task1_gate" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model task1_gate -param task1_gate_desc -x 0.5 -y 6.4 -z -0.5"/> 
+		
+		<param name="task1_flare_desc" 
+			command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/task1_flare.xacro" />
+
+		<node name="spawn_task1_flare" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model task1_flare -param task1_flare_desc -x 4.5 -y 6.3 -z -2"/> 	
+	
+		<param name="task2_mat_desc" 
+			command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/task2_mat.xacro" />
+
+		<node name="spawn_task2_mat" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model task2_mat -param task2_mat_desc -x -10 -y 1 -z -2 -Y 1.5708"/>
+	
+		<param name="task4_pinger_desc" 
+			command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/task4_pinger.xacro" />
+
+		<node name="spawn_task4_pinger" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model task4_pinger -param task4_pinger_desc -x -0.99 -y 14.99 -z -2"/> 	
+	
+		<param name="task4_no_pinger_desc" 
+			command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/task4_no_pinger.xacro" />
+
+		<node name="spawn_task4_no_pinger" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model task4_no_pinger -param task4_no_pinger_desc -x -3.99 -y 19.99 -z -2"/>
+
+
+		<group if="$(arg show_task4_balls)">
+			<param name="task4_ball_desc" 
+					command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/task4_ball.xacro" />
+
+			<node name="spawn_task4_ball_1" 
+				pkg="gazebo_ros"
+				type="spawn_model" 
+				respawn="false"
+				output="screen"
+				args="-urdf -model task4_ball_1 -param task4_ball_desc -x -1 -y 14.98 -z -1.2"/>	
+	
+			<node name="spawn_task4_ball_2" 
+				pkg="gazebo_ros"
+				type="spawn_model" 
+				respawn="false"
+				output="screen"
+				args="-urdf -model task4_ball_2 -param task4_ball_desc -x -4 -y 19.98 -z -1.2"/>
+		</group>
+
+	</group>
+	
+</launch>

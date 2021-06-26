@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="task4_pinger" xmlns:xacro="http://www.ros.org/wiki/xacro">
+	
+  <link name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.31877"
+        rpy="0 0 0" />
+      <mass
+        value="12.525" />
+      <inertia
+        ixx="0.8346"
+        ixy="0"
+        ixz="0"
+        iyy="0.01322"
+        iyz="0"
+        izz="0.3" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/task4_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/task4_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+	
+  <link name="pinger">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0" />
+      <inertia
+        ixx="0.0"
+        ixy="0"
+        ixz="0"
+        iyy="0.0"
+        iyz="0"
+        izz="0.0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/pinger.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/pinger.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint
+    name="pinger_link"
+    type="fixed">
+    <origin
+      xyz="0 -0.0225 0.4245"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="pinger" />
+    <axis
+      xyz="0 0 0" />
+  </joint>	
+	
+	<gazebo reference="base_link">
+		<material>
+			Gazebo/Yellow
+		</material>
+	</gazebo>
+	
+	<gazebo reference="pinger">
+		<material>
+			Gazebo/Grey
+		</material>
+	</gazebo>
+
+</robot>

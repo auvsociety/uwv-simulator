@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="task1_flare">
+  <link name="flare">
+    <inertial>
+      <origin
+        xyz="0 4.73845382683391E-17 0.75"
+        rpy="0 0 0" />
+      <mass
+        value="26.507" />
+      <inertia
+        ixx="5.0074"
+        ixy="1.7642903739519E-49"
+        ixz="-2.8814E-33"
+        iyy="5.0074"
+        iyz="-3.02039911392318E-16"
+        izz="0.074551" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="1.5707963267949 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/task1_flare.STL" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="1.5707963267949 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/task1_flare.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <gazebo reference="flare">
+	<material>Gazebo/Red</material>
+  </gazebo>
+  
+  <gazebo>
+	<static>true</static>
+  </gazebo>
+  
+</robot>

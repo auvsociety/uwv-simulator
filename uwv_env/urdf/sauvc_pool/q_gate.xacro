@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="q_gate"  xmlns:xacro="http://www.ros.org/wiki/xacro">
+	
+  <link name="base_link">
+    <inertial>
+      <origin
+        xyz="0 -0.75 -9.7454E-19"
+        rpy="0 0 0" />
+      <mass
+        value="11.781" />
+      <inertia
+        ixx="2.2163"
+        ixy="-8.5374E-34"
+        ixz="5.6241E-35"
+        iyy="0.014726"
+        iyz="0"
+        izz="2.2163" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/gate_port.STL" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/gate_port.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <link name="top">
+    <inertial>
+      <origin
+        xyz="-9.7454E-19 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="11.781" />
+      <inertia
+        ixx="2.2163"
+        ixy="0"
+        ixz="0"
+        iyy="2.2163"
+        iyz="-8.5374E-34"
+        izz="0.014726" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/gate_top.STL" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/gate_top.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint name="top_joint" type="fixed">
+    <origin
+      xyz="0 0.7 0.05"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="top" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  
+  <link name="star">
+    <inertial>
+      <origin
+        xyz="0 -0.75 0"
+        rpy="0 0 0" />
+      <mass
+        value="11.781" />
+      <inertia
+        ixx="2.2163"
+        ixy="-8.5374E-34"
+        ixz="5.6241E-35"
+        iyy="0.014726"
+        iyz="0"
+        izz="2.2163" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/gate_star.STL" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/gate_star.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint name="star_joint" type="fixed">
+    <origin
+      xyz="0 1.4 0"
+      rpy="1.5708 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="star" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  
+  
+  <gazebo reference="base_link">
+	<material>Gazebo/Yellow</material>
+  </gazebo>
+  <gazebo reference="top">
+	<material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="star">
+	<material>Gazebo/Yellow</material>
+  </gazebo>
+  
+  <gazebo>
+	<static>true</static>
+  </gazebo>
+  
+</robot>

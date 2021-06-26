@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="vec6" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="cam_origin_offset" value="0 0 0"/>
+  <xacro:property name="camera_dimensions" value="0.01 0.01 0.01"/>
+
+  <xacro:property name="depth_origin_offset" value="0 0 0.11"/>
+  <xacro:property name="depth_dimensions" value="0.005 0.005 0.002"/> 
+
+  <xacro:property name="imu_origin_offset" value="0 0 0"/>
+  <xacro:property name="imu_dimensions" value="0.005 0.005 0.002"/>
+
+  <!-- Dummy thruster links to define position of the thrusters -->
+  <!-- Input parameters: Thruster name and pose of the joint -->
+  <xacro:macro name="thruster_link" params="name xyz rpy">        
+        
+    <link name="${name}">
+			<visual>
+			  <origin
+				xyz="0 0 0"
+				rpy="${rpy}" />
+			  <geometry>
+				<mesh
+				  filename="package://uwv_description/meshes/vec6/vec6_thruster_visual.STL" />
+			  </geometry>
+			</visual> 
+			<collision>
+			  <origin
+				xyz="0 0 0"
+				rpy="${rpy}" />
+			  <geometry>
+          <mesh
+            filename="package://uwv_description/meshes/vec6/vec6_thruster_collision.STL" />
+			  </geometry>
+			</collision> 
+        <buoyancy>
+          <compensation>
+            1.0				
+          </compensation>
+			</buoyancy>                
+    </link>
+        
+    <joint name="${name}_joint" type="fixed">
+      <parent link="vec6_base_link"/>
+      <child link="${name}"/>
+      <origin rpy="0 0 0" xyz="${xyz}"/>
+    </joint>
+        
+    <gazebo reference="${name}">
+			<material>Gazebo/White</material>
+		</gazebo>                   
+  </xacro:macro> 
+      
+  <!-- Gazebo plugin for buoyancy -->   
+  <gazebo>
+	  <plugin name="freefloating_gazebo_control" filename="libfreefloating_gazebo_control.so">
+      <switchService>switch</switchService>
+      <updateRate>100</updateRate>
+      <link>vec6_base_link</link>
+      
+      <!-- for each thruster, give the map to XYZ+RPY and the maximum effort -->
+      <thruster>
+        <effort>40</effort>
+        <name>f_port</name>
+        <map>-0.25 -0.25 0 0 0 -0.25</map>
+      </thruster>
+      <thruster>
+        <effort>40</effort>
+        <name>f_star</name>
+        <map>0.25 -0.25 0 0 0 0.25</map>
+      </thruster>
+      <thruster>
+        <effort>40</effort>
+        <name>m_port</name>
+        <map>0 0 -1 0 0 0</map>
+        </thruster>
+      <thruster>
+        <effort>40</effort>
+        <name>m_star</name>
+        <map>>0 0 -1 0 0 0</map>
+      </thruster>
+      <thruster>
+        <effort>40</effort>
+        <name>b_port</name>
+        <map>0.25 -0.25 0 0 0 -0.25</map>
+      </thruster>
+      <thruster>
+        <effort>40</effort>
+        <name>b_star</name>
+        <map>-0.25 -0.25 0 0 0 0.25</map>
+      </thruster>
+		
+	  </plugin>
+  </gazebo>
+
+  <!-- Ground truth publisher plugin -->
+  <gazebo>
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50.0</updateRate>
+      <bodyName>vec6_base_link</bodyName>
+      <topicName>/uwv/vec6/sim_ground_truth</topicName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <frameName>world</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
+    </plugin>
+  </gazebo>   
+  
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/uwv/vec6</robotNamespace>
+    </plugin>
+  </gazebo>
+
+  <!-- Bot body -->   
+  <link name="body_link">
+    <visual>
+      <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+      <geometry>
+          <mesh
+            filename="package://uwv_description/meshes/vec6/vec6_body_visual.STL"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.235 -0.019804"
+        rpy="1.5708 0 0" />
+      <geometry>
+        <mesh filename="package://uwv_description/meshes/vec6/vec6_body_collision.STL" />
+      </geometry>
+    </collision> 
+    <buoyancy>
+        <compensation>1</compensation>
+    </buoyancy>
+  </link>
+
+  <link name="vec6_base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="1.5708 0 0" />      
+      <mass
+        value="22" />
+      <inertia
+        ixx="0.64227"
+        ixy="0.0022152"
+        ixz="0"
+        iyy="1.0029"
+        iyz="0"
+        izz="0.52067" />
+    </inertial>  
+    <buoyancy>
+      <compensation>1.01</compensation>
+      <origin xyz="0 0 0.5"/>
+      <limit radius="0.05"/>
+      <damping xyz="50 50 50" rpy="10 10 10" type="linear"/>
+    </buoyancy>
+  </link>
+  
+  <joint name="body_link_joint" type="fixed">
+    <parent link="vec6_base_link"/>
+    <child link="body_link"/>
+    <origin
+          xyz="0 -0.235 0.019804"
+          rpy="0 0 0" />
+  </joint>
+
+  <gazebo reference="body_link">
+		<material>Gazebo/Blue</material>
+  </gazebo>
+  
+  <!-- Actuators: Thrusters -->
+  <xacro:thruster_link name="f_star" xyz="-0.2714 -0.28343 0.0123" rpy="1.5708 0 -0.7854" />
+  <xacro:thruster_link name="f_port" xyz="0.2714 -0.28343 0.0123" rpy="-1.5708 0 -2.35619449019235"/>
+  <xacro:thruster_link name="m_star" xyz="-0.28715 0.0070482 0.009" rpy="0 -1.5708 0"/>
+  <xacro:thruster_link name="m_port" xyz="0.28715 0.0070482 0.009" rpy="0 -1.5708 3.1416"/>
+  <xacro:thruster_link name="b_star" xyz="-0.2714 0.28343 0.0123" rpy="-1.5708 0 0.7854"/>
+  <xacro:thruster_link name="b_port" xyz="0.2714 0.28343 0.0123" rpy="-1.5708 3.1416 -0.7854"/>
+
+  <!-- Sensor: Front Camera -->
+  <link name="f_cam">
+    <visual>
+      <origin
+        xyz="-0.09 0.015 -0.0152"
+        rpy="0 1.5708 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_description/meshes/vec6/vec6_camera.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="-0.09 0.015 -0.0152"
+        rpy="0 1.5708 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_description/meshes/vec6/vec6_camera.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="f_cam_joint" type="fixed">
+    <origin
+      xyz="-0.015 -0.355 -0.07"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="vec6_base_link" />
+    <child
+      link="f_cam" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+    
+  <!-- Front Camera: Plugin -->
+  <gazebo reference="f_cam">
+	 <material>Gazebo/Red</material>  
+   <sensor type="camera" name="f_cam">
+   <update_rate>30.0</update_rate>
+   <camera name="f_cam_head">
+        <horizontal_fov>1.3</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>30</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+    </camera>
+    <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>30.0</updateRate>
+        <cameraName>f_cam</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.01</distortionK1>
+        <distortionK2>0.02</distortionK2>
+        <distortionK3>0.01</distortionK3>
+        <distortionT1>0.03</distortionT1>
+        <distortionT2>0.04</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Sensor: Down Camera -->
+  <link name="d_cam">
+    <collision>
+      <origin xyz="${cam_origin_offset}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${camera_dimensions}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="${cam_origin_offset}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${camera_dimensions}"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  <joint name="d_cam_joint" type="fixed">
+    <origin
+      xyz="0 -0.255 -0.092"
+      rpy="0 1.5708 -1.5708" />
+    <parent
+      link="vec6_base_link" />
+    <child
+      link="d_cam" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+    
+  <!-- Down Camera: Plugin -->
+  <gazebo reference="d_cam">
+	 <material>Gazebo/Red</material>  
+   <sensor type="camera" name="d_cam">
+   <update_rate>30.0</update_rate>
+   <camera name="d_cam_head">
+        <horizontal_fov>1.3</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>30</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+    </camera>
+    <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>d_cam</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.01</distortionK1>
+        <distortionK2>0.02</distortionK2>
+        <distortionK3>0.01</distortionK3>
+        <distortionT1>0.03</distortionT1>
+        <distortionT2>0.04</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+ 
+  <!-- Depth sensor -->
+  <link name="depth_sensor">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${depth_dimensions}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${depth_dimensions}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link> 
+  <joint name="depth_sensor_joint" type="fixed">
+    <origin xyz="${depth_origin_offset}" rpy="0 0 0"/>
+    <parent link="vec6_base_link"/>
+    <child link="depth_sensor"/>
+  </joint>
+  <gazebo reference="depth_sensor">
+	  <material>Gazebo/Green</material>
+  </gazebo>
+
+  <!-- Depth: Plugin -->
+  <gazebo>
+	  <plugin name='depth_plugin' filename='libplugin_depth.so'>
+      <bodyName>depth_sensor</bodyName>
+      <depthTopicName>/uwv/vec6/sim_depth</depthTopicName>
+      <noise>0.01</noise>
+	  </plugin>
+  </gazebo>
+  
+  <!-- IMU -->
+  <link name="imu_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+		<box size="${imu_dimensions}"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+		<box size="${imu_dimensions}"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link> 
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="${imu_origin_offset}" rpy="0 0 -1.5708"/>
+    <parent link="vec6_base_link"/>
+    <child link="imu_link"/>
+  </joint>
+  <gazebo reference="imu_link">
+	  <material>Gazebo/Purple</material>
+  </gazebo>
+  
+  <!-- IMU: Plugin -->
+  <gazebo>
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>imu_link</bodyName>
+      <topicName>/uwv/vec6/sim_imu</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.01</gaussianNoise>
+      <updateRate>30.0</updateRate>
+    </plugin>
+  </gazebo>
+
+
+</robot>

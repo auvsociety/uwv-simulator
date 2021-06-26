@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+    <model name='sauvc_pool'>
+      <static>1</static>
+      <link name='sauvc_pool_base'>
+        <visual name='pool_floor'>
+          <cast_shadows>1</cast_shadows>
+          <pose frame=''>0 0 -2.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>25 50 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://models/sauvc_pool/materials/scripts/sauvc_pool.material</uri>
+              <name>sauvc_pool/floor_sun</name>
+            </script>
+            <emissive>0.6 0.6 0.6 1</emissive>
+          </material>
+        </visual>
+        <collision name='pool_floor'>
+          <pose frame=''>0 0 -2.01 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>25 50 0.01</size>
+            </box>
+          </geometry>
+          <max_contacts>1000</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>        
+       <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      
+      <link name='north_link'>
+		<visual name='north'>
+			<pose>12.5 0 -1 0 -1.57079 0</pose>
+          <geometry>
+            <box>
+              <size>2.01 50 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://models/sauvc_pool/materials/scripts/sauvc_pool.material</uri>
+              <name>sauvc_pool/wall</name>
+            </script>
+            <emissive>0.6 0.6 0.6 1</emissive>
+          </material>
+         </visual>
+          <collision name='north'>
+			  <pose>12.5 0 -1 0 -1.57079 0</pose>
+          <geometry>
+            <box>
+              <size>2.01 50 0.01</size>
+            </box>
+          </geometry>
+          <max_contacts>40</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+          <self_collide>0</self_collide>
+          <enable_wind>0</enable_wind>
+          <kinematic>0</kinematic>
+        </link>        
+      <joint type="fixed" name="north_link_joint">
+        <child>north_link</child>
+        <parent>sauvc_pool_base</parent>
+      </joint>
+      
+      <link name='south_link'>
+		<visual name='south'>
+			<pose>-12.5 0 -1 0 -1.57079 0</pose>
+          <geometry>
+            <box>
+              <size>2.01 50 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://models/sauvc_pool/materials/scripts/sauvc_pool.material</uri>
+              <name>sauvc_pool/wall</name>
+            </script>
+            <emissive>0.6 0.6 0.6 1</emissive>
+          </material>
+         </visual>
+          <collision name='south'>
+			  <pose>-12.5 0 -1 0 -1.57079 0</pose>
+          <geometry>
+            <box>
+              <size>2.01 50 0.01</size>
+            </box>
+          </geometry>
+          <max_contacts>40</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+          <self_collide>0</self_collide>
+          <enable_wind>0</enable_wind>
+          <kinematic>0</kinematic>
+        </link>        
+      <joint type="fixed" name="south_link_joint">
+        <child>south_link</child>
+        <parent>sauvc_pool_base</parent>
+      </joint>
+      
+      <link name='east_link'>
+		<visual name='east'>
+		 <pose>0 25 -1 -1.5708 0 0</pose>
+          <geometry>
+            <box>
+              <size>25 2.01 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://models/sauvc_pool/materials/scripts/sauvc_pool.material</uri>
+              <name>sauvc_pool/wall</name>
+            </script>
+            <emissive>0.6 0.6 0.6 1</emissive>
+          </material>
+         </visual>
+          <collision name='east'>
+		  <pose>0 25 -1 -1.5708 0 0</pose>
+          <geometry>
+            <box>
+              <size>25 2.01 0.01</size>
+            </box>
+          </geometry>
+          <max_contacts>40</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+          <self_collide>0</self_collide>
+          <enable_wind>0</enable_wind>
+          <kinematic>0</kinematic>
+        </link>        
+      <joint type="fixed" name="east_link_joint">
+        <child>east_link</child>
+        <parent>sauvc_pool_base</parent>
+      </joint>
+      
+      <link name='west_link'>
+		<visual name='west'>
+		 <pose>0 -25 -1 -1.5708 0 0</pose>
+          <geometry>
+            <box>
+              <size>25 2.01 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://models/sauvc_pool/materials/scripts/sauvc_pool.material</uri>
+              <name>sauvc_pool/wall</name>
+            </script>
+            <emissive>0.6 0.6 0.6 1</emissive>
+          </material>
+         </visual>
+          <collision name='west'>
+		  <pose>0 -25 -1 -1.5708 0 0</pose>
+          <geometry>
+            <box>
+              <size>25 2.01 0.01</size>
+            </box>
+          </geometry>
+          <max_contacts>40</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+          <self_collide>0</self_collide>
+          <enable_wind>0</enable_wind>
+          <kinematic>0</kinematic>
+        </link>        
+      <joint type="fixed" name="west_link_joint">
+        <child>west_link</child>
+        <parent>sauvc_pool_base</parent>
+      </joint>
+      <pose frame=''>0 0 0 0 -0 0</pose>
+    </model>
+</sdf>

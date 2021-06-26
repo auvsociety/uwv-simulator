@@ -1,0 +1,47 @@
+material sauvc_pool/floor{
+	receive_shadows on
+	technique{
+		pass{
+			ambient 1.0 1.0 1.0 1.0
+   		    diffuse 0.8 0.8 0.8 1.0
+			specular 0.0 0.0 0.0 1.0 2.0
+			
+			texture_unit{
+				texture ../textures/floor.jpg
+				scale 0.5 0.5
+			}
+		}
+	}
+}
+
+material sauvc_pool/floor_sun{
+	receive_shadows on
+	technique{
+		pass{
+			ambient 1.0 1.0 1.0 1.0
+   		    diffuse 0.8 0.8 0.8 1.0
+			specular 0.0 0.0 0.0 1.0 2.0
+			
+			texture_unit{
+				texture ../textures/floor_sun.png
+				scale 0.5 0.5
+			}
+		}
+	}
+}
+
+material sauvc_pool/wall{
+	receive_shadows on
+	technique{
+		pass{
+			ambient 1.0 1.0 1.0 1.0
+   		    diffuse 0.8 0.8 0.8 1.0
+			specular 0.0 0.0 0.0 1.0 2.0
+			
+			texture_unit{
+				texture ../textures/wall.jpg
+				scale 0.5 0.5
+			}
+		}
+	}
+}

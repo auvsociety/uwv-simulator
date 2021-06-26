@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="task2_mat" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Macros to add tubs onto the mat  -->
+  <xacro:macro name="tub_link_red" params="id xyz">
+		<link name="tub_${id}">
+			<inertial>
+			  <origin
+				xyz="0 0.1121 0"
+				rpy="0 0 0" />
+			  <mass
+				value="57.465" />
+			  <inertia
+				ixx="2.4157"
+				ixy="-5.5456E-16"
+				ixz="6.1062E-16"
+				iyy="3.7023"
+				iyz="1.205E-15"
+				izz="2.4157" />
+			</inertial>
+			<visual>
+			  <origin
+				xyz="0 0 0"
+				rpy="0 0 0" />
+			  <geometry>
+				<mesh
+				  filename="package://uwv_env/meshes/sauvc_pool/tub.STL" />
+			  </geometry>
+			  <material
+				name="">
+				<color
+				  rgba="1 0 0 1" />
+			  </material>
+			</visual> 
+			<collision>
+			  <origin
+				xyz="0 0 0"
+				rpy="0 0 0" />
+			  <geometry>
+				<mesh
+				  filename="package://uwv_env/meshes/sauvc_pool/tub.STL" />
+			  </geometry>
+			</collision>              
+        </link>
+        
+        <joint name="tub_${id}_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="tub_${id}"/>
+            <origin rpy="1.5708 0 0" xyz="${xyz}"/>
+        </joint>      
+        
+        <gazebo reference="tub_${id}">
+			<material>
+				Gazebo/Red
+			</material>
+		</gazebo>
+		        
+    </xacro:macro>   
+    
+  <xacro:macro name="tub_link_blue" params="id xyz">
+		<link name="tub_${id}">
+			<inertial>
+			  <origin
+				xyz="0 0.1121 0"
+				rpy="0 0 0" />
+			  <mass
+				value="57.465" />
+			  <inertia
+				ixx="2.4157"
+				ixy="-5.5456E-16"
+				ixz="6.1062E-16"
+				iyy="3.7023"
+				iyz="1.205E-15"
+				izz="2.4157" />
+			</inertial>
+			<visual>
+			  <origin
+				xyz="0 0 0"
+				rpy="0 0 0" />
+			  <geometry>
+				<mesh
+				  filename="package://uwv_env/meshes/sauvc_pool/tub.STL" />
+			  </geometry>
+			  <material	name="">
+					<color rgba="0 0.6 0.7 1" />
+			  </material>
+			</visual> 
+			<collision>
+			  <origin
+				xyz="0 0 0"
+				rpy="0 0 0" />
+			  <geometry>
+				<mesh
+				  filename="package://uwv_env/meshes/sauvc_pool/tub.STL" />
+			  </geometry>
+			</collision>              
+        </link>
+        
+        <joint name="tub_${id}_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="tub_${id}"/>
+            <origin rpy="1.5708 0 0" xyz="${xyz}"/>
+        </joint>      
+        
+        <gazebo reference="tub_${id}">
+			<material>
+				Gazebo/Blue
+			</material>
+		</gazebo>
+		        
+    </xacro:macro> 
+     	
+  <link name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0.0005 0"
+        rpy="0 0 0" />
+      <mass
+        value="126.4" />
+      <inertia
+        ixx="42.133"
+        ixy="0"
+        ixz="0"
+        iyy="716.27"
+        iyz="0"
+        izz="674.13" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/mat.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://uwv_env/meshes/sauvc_pool/mat.STL" />
+      </geometry>
+    </collision>
+  </link>
+  
+    <gazebo reference="base_link">
+		<material>
+			Gazebo/Green
+		</material>
+	</gazebo>
+	
+  
+  <xacro:tub_link_blue id="1" xyz="-3 0 0.001"/>
+  <xacro:tub_link_red id="2" xyz="-1 0 0.001"/>
+  <xacro:tub_link_red id="3" xyz="1 0 0.001"/>
+  <xacro:tub_link_red id="4" xyz="3 0 0.001"/>
+  
+</robot>

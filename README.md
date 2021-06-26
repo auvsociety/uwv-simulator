@@ -8,7 +8,7 @@ The **uwv-simulator** is an underwater vehicle (UWV) simulator developed by the 
 ### Key features
 -  Tested on ROS-Noetic + Gazebo-11
 - Swimming pool environment of the Singapore Autonomous Underwater Challenge (SAUVC) has been built with props that can be placed dynamically at the beginning of simulation
-- An underwater vehicle with eight thrusters, amongst which six are in a vectored configuration is included
+- An underwater vehicle (named **vec6**) with six thrusters, amongst which four are in a vectored configuration is included
 - A simple and efficient vectored thruster algorithm is developed enabling the vehicle to surge, sway, and yaw simultaneously
 - The software stack is designed to execute the top-level algorithms both in the simulation and the hardware, with minor changes at low-level methods. The motivation for adopting this approach was to develop a framework that anyone willing to work on higher level problems like motion planning, etc. can easily do so without the need to worry about the lower-level logic.
 
@@ -38,6 +38,11 @@ To make use of the repository and the components present in it, follow the subse
 
 4. TODO: Add instructions to install `darknet_ros`
 
+### Navigate
+1. [uwv_control](./uwv_control)
+2. [uwv_description](./uwv_description)
+3. [uwv_env](./uwv_env)
+4. [On uwv-simulator namespaces](./docs/uwv-ns.md)
 
 ## History
 SAUVC 2020 was the AUV Society of IIITDM Kancheepuram’s second attempt for the challenge. The team developed an underwater equipped with 6 BlueRobotics T100 thrusters providing 5 degrees of freedom. The vehicle relied on three sensors namely, inertial measurement unit (IMU), depth sensor, and a camera for mapping and navigation. The team’s focus was to build a cost effective system while keeping in mind the performance. Most of the components and parts of the vehicle were fabricated and designed by the team members itself. 
