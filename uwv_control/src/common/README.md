@@ -8,4 +8,3 @@ The header files present in this directory are located at `uwv_control/include`.
 | --- | --- |
 | `pid_rotate.cpp` |  Implementation of PID controller for rotatory motion. |
 | `pid_translate.cpp` | Implementation of PID controller for translatory motion. |
-| `stoppable_thread.cpp` | Abstract class providing API for a reusable and stoppable thread. |
