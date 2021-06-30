@@ -1,10 +1,7 @@
 # uwv_control/src/vec6
 
-Contains source files to build ROS nodes for the underwater vehicle: **vec6**.
-
-## List of file names and use-cases
+## List of directories use-cases
 
 | File name | Use-case |
 | --- | --- |
-| `vec6_config.h` |  Contains constants related to **vec6** vehicle's configuration. |
-| `vec6_controller.cpp` | Abstract class to control the PID loop and configuration. |
+| `common` |  Contains source files that are common to any task that must be performed by **vec6** underwater vehicle. |

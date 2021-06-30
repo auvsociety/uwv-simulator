@@ -10,23 +10,6 @@
 // Misc libraries
 #include "vec6_config.h"
 #include "stoppable_thread.h"
-#include <cmath>
-#define RAD2DEG 57.2957795131
-
-/// @brief Total number of thrusters present in vec6
-#define THRUSTER_NUM 6
-
-/// @brief Structure to store roll, pitch, yaw (the orientation) of vec6
-struct Orientation
-{
-  double roll, pitch, yaw;
-};
-
-/// @brief Structure to store x, y, z coordinates of vec6
-struct Coordinates
-{
-  double x, y, z;
-};
 
 /**
  * @brief Abstract class that controls the PID loop and configuration
@@ -34,17 +17,8 @@ struct Coordinates
 class Vec6Controller : public StoppableThread
 {
 public:
-  /// @brief Current location
-  Coordinates cur_loc_;
-
-  /// @brief Set-point location
-  Coordinates set_loc_;
-
-  /// @brief Current orientation
-  Orientation cur_orient_;
-  
-  /// @brief Set-point orientation
-  Orientation set_orient_;
+  /// @brief Object to store and access the state of the underwater vehicle
+  Vec6State vec6;
 
   /// @brief Depth controller
   PidTranslate depth_controller_;
