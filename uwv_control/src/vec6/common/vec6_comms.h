@@ -11,8 +11,6 @@
 #include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/JointState.h>
-#include <std_msgs/Bool.h>
-#include <std_msgs/Empty.h>
 
 #ifdef USE_DARKNET
 #include "darknet_ros_msgs/BoundingBoxes.h"
@@ -33,14 +31,11 @@ public:
 	const std::string bounding_box_topic_ = BOUNDING_BOX_TOPIC;
 	#endif
 
-	/// @brief Object to store and access the state of the underwater vehicle
-  	Vec6State vec6;
+	/// @brief Pointer to the instance storing state of the vehicle
+  	Vec6State *state_;
 
 	/// @brief Thruster effort publisher
 	ros::Publisher effort_pub_;
-
-	/// @brief Effort message
-	sensor_msgs::JointState effort_;
 
 	/// @brief Depth data subscriber
 	ros::Subscriber depth_sub_;
@@ -61,8 +56,9 @@ public:
 	 * vec6 by creating publishers and subscribers.
 	 * 
 	 * @param node Reference to the node handle of the main ROS node
+	 * @param _vec6state Reference to the instance storing the state of vec6
 	 */
-	void initComms(ros::NodeHandle& _node);
+	void initComms(ros::NodeHandle& _node, Vec6State& _vec6state);
 
 	/**
 	 * @brief Callback function listening to depth sensor's output.

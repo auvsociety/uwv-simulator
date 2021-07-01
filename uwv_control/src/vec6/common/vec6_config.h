@@ -58,23 +58,59 @@ struct Coordinates
 };
 
 /**
- * Class with static members storing information about the current, and set
- * location and orientation of vec6 underwater vehicle
+ * Class with members storing information about various aspects of the 
+ * vec6 vehicle
  */ 
 class Vec6State
 {
 public:
+  /// @brief Whether or not vec6 is in traversing mode
+  bool is_traversing_;
+
+  /// @brief Maximum effort for the thrusters
+  double max_thrust_;
+
+  /// @brief Constant for vectored-thruster fusion
+  double beta_;
+
+  /**
+   * @brief SYS(surge, yaw, sway) matrix.
+   * A matrix containing multiplication factors for each thruster in the 
+   * vectored configuration. This along with the fusion constant are used
+   * to determine the effort for each of the thrusters.
+   * Row #0: Surge factors 
+   * Row #1: Yaw factors
+   * Row #2: Sway factors
+   * Column sequence: F_PORT, F_STAR, B_PORT, B_STAR
+  */
+  const double sys_mat_[3][4] = {{1,1,1,1},{1,-1,1,-1},{1,-1,-1,1}};
+  
   /// @brief Current location
-  static Coordinates cur_loc_;
+  Coordinates cur_loc_;
 
   /// @brief Set-point location
-  static Coordinates set_loc_;
+  Coordinates set_loc_;
 
   /// @brief Current orientation
-  static Orientation cur_orient_;
+  Orientation cur_orient_;
   
   /// @brief Set-point orientation
-  static Orientation set_orient_;
+  Orientation set_orient_;
+
+  /**
+   * @brief Constructor to create instance of vec6's state using following
+   * critical parameters
+   * 
+   * @param _max_thrust maximum effort for the thrusters (default: 40)
+   * @param _beta constant for vectored-thruster fusion  (default: 0.4)
+   */
+  Vec6State(double _max_thrust = 40, double _beta = 0.4){
+    is_traversing_ = false;
+
+    max_thrust_ = _max_thrust;
+    beta_ = _beta;
+  }
+
 };
 
 #endif

@@ -136,10 +136,10 @@ void Vec6Controller::run(){
     // sanity check
     if (dt <= 0)
       continue;
-    heavePid2Effort(depth_controller_.update(vec6.set_loc_.z, vec6.cur_loc_.z, dt));
-    vectoredPid2Effort(vec6.set_loc_.x,
-                       yaw_controller_.update(vec6.set_orient_.yaw, vec6.cur_orient_.yaw, dt),
-                       vec6.set_loc_.y);
+    heavePid2Effort(depth_controller_.update(state_.set_loc_.z, state_.cur_loc_.z, dt));
+    vectoredPid2Effort(state_.set_loc_.x,
+                       yaw_controller_.update(state_.set_orient_.yaw, state_.cur_orient_.yaw, dt),
+                       state_.set_loc_.y);
     sendCommands();
 
     prev_time = cur_time;

@@ -17,8 +17,8 @@
 class Vec6Controller : public StoppableThread
 {
 public:
-  /// @brief Object to store and access the state of the underwater vehicle
-  Vec6State vec6;
+  /// @brief Instance holding the vec6 vehicle's state
+  Vec6State state_;
 
   /// @brief Depth controller
   PidTranslate depth_controller_;
@@ -26,6 +26,7 @@ public:
   /// @brief Yaw controller
   PidRotate yaw_controller_;
 
+  Vec6Controller(){}
   virtual ~Vec6Controller(){}
 
   /**
@@ -64,9 +65,11 @@ public:
    */ 
   void run();
 
-  virtual void heavePid2Effort(float pid_heave) = 0;
-  virtual void vectoredPid2Effort(float pid_yaw, float pid_surge, float pid_sway) = 0;
+  virtual void heavePid2Effort(double _pid_heave) = 0;
+  virtual void vectoredPid2Effort(double _pid_yaw, double _pid_surge, double _pid_sway) = 0;
   virtual void sendCommands(void) = 0;
+  virtual void allThrustersStop(void) = 0;
+  virtual void setEffort(double *_manual_effort) = 0;
 };
 
 #endif

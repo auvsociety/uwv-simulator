@@ -1,6 +1,6 @@
 #include "vec6_comms.h"
 
-void Vec6Comms::initComms(ros::NodeHandle &_node){
+void Vec6Comms::initComms(ros::NodeHandle &_node, Vec6State& _vec6state){
 	// Initialize publisher
 	effort_pub_ = _node.advertise<sensor_msgs::JointState>(effort_topic_, 1);
 
@@ -30,12 +30,14 @@ void Vec6Comms::initComms(ros::NodeHandle &_node){
 		ROS_WARN_STREAM("Could not subscribe to topic: " << bounding_box_topic_);
 	}
 	#endif
+
+	state_ = &_vec6state;
 }
 
 void Vec6Comms::depthCallbck(const geometry_msgs::PointStamped& _depth)
 {
 	g_mtx.lock();
-  	vec6.cur_loc_.z = -_depth.point.z; 		// negating to conform to accepted convention
+  	state_->cur_loc_.z = -_depth.point.z; 		// negating to conform to accepted convention
 	g_mtx.unlock();
 }
 
@@ -47,13 +49,13 @@ void Vec6Comms::imuCallbck(const sensor_msgs::Imu& imu_)
   double sqz = imu_.orientation.z * imu_.orientation.z;
   
   g_mtx.lock();
-  vec6.cur_orient_.roll = atan2(2.0 * (imu_.orientation.y * imu_.orientation.z + imu_.orientation.x * imu_.orientation.w),
+  state_->cur_orient_.roll = atan2(2.0 * (imu_.orientation.y * imu_.orientation.z + imu_.orientation.x * imu_.orientation.w),
                           (-sqx - sqy + sqz + sqw)) *
                     RAD2DEG;
-  vec6.cur_orient_.pitch = asin(2.0 * (imu_.orientation.y * imu_.orientation.w - imu_.orientation.x * imu_.orientation.z) /
+  state_->cur_orient_.pitch = asin(2.0 * (imu_.orientation.y * imu_.orientation.w - imu_.orientation.x * imu_.orientation.z) /
                           (sqx + sqy + sqz + sqw)) *
                      RAD2DEG;
-  vec6.cur_orient_.yaw = -atan2(2.0 * (imu_.orientation.x * imu_.orientation.y + imu_.orientation.z * imu_.orientation.w),
+  state_->cur_orient_.yaw = -atan2(2.0 * (imu_.orientation.x * imu_.orientation.y + imu_.orientation.z * imu_.orientation.w),
                          (sqx - sqy - sqz + sqw)) *
                    RAD2DEG; // negating to conform to accepted convention
   g_mtx.unlock();
