@@ -146,3 +146,115 @@ void Vec6Controller::run(){
   }
   ROS_INFO_STREAM("PID controller thread stopped.");
 }
+
+void Vec6Controller::spinningDelay(double _time){
+  unsigned long ticks = GET_COUNTDOWN_TICKS(_time);
+  ros::Rate rate(VEC6_SPIN_RATE);
+  while(ticks != 1 && ros::ok()){
+    ros::spinOnce();
+    ticks--;
+    rate.sleep();
+  }
+}
+
+void Vec6Controller::doYaw(double _angle, double _sensitivity){
+  state_.set_orient_.yaw = _angle;
+
+  ROS_INFO_STREAM("Performing yaw... Set-point: " << _angle);
+
+  ros::Rate rate(VEC6_SPIN_RATE);
+
+  while(fabs(state_.set_orient_.yaw - state_.cur_orient_.yaw) >= _sensitivity && ros::ok()){
+    ros::spinOnce();
+    rate.sleep();
+  }
+
+  ROS_INFO_STREAM("Performed yaw.");
+}
+
+void Vec6Controller::doHeave(double _depth, double _sensitivity){
+  state_.set_loc_.z = _depth;
+
+  ROS_INFO_STREAM("Performing heave... Set-point: " << _depth);
+
+  ros::Rate rate(VEC6_SPIN_RATE);
+
+  while(fabs(state_.set_loc_.z - state_.cur_loc_.z) >= _sensitivity && ros::ok()){
+    ros::spinOnce();
+    rate.sleep();
+  }
+
+  ROS_INFO_STREAM("Performed heave.");
+}
+
+void Vec6Controller::doSurge(double _surge_thrust, double _surge_time){
+  if(_surge_thrust >= 0){
+    /// @todo verify if the call to this function is required or not
+    // allThrustersStop();
+
+    state_.set_loc_.x = _surge_thrust;
+    ROS_INFO_STREAM("Performing surge with thrust: " << _surge_thrust << 
+                    " for time: " << _surge_time << " sec(s).");
+
+    spinningDelay(_surge_time);
+
+    state_.set_loc_.x = 0;
+
+    ROS_INFO_STREAM("Performed surge.");
+  }
+  else{
+    ROS_WARN_STREAM("Negative time for surge effort.");
+  }
+}
+
+void Vec6Controller::doSway(double _sway_thrust, double _sway_time){
+  if(_sway_time >= 0){
+    /// @todo verify if the call to this function is required or not
+    // allThrustersStop();
+
+    state_.set_loc_.y = _sway_thrust;
+    ROS_INFO_STREAM("Performing sway with thrust: " << _sway_thrust << 
+                    " for time: " << _sway_time << " sec(s).");
+
+    spinningDelay(_sway_time);
+
+    state_.set_loc_.y = 0;
+
+    ROS_INFO_STREAM("Performed sway.");
+  }
+  else{
+    ROS_WARN_STREAM("Negative time for sway effort.");
+  }
+}
+
+void Vec6Controller::doSurgeAndSway(double _surge_thrust, double _surge_time,
+                                    double _sway_thrust, double _sway_time){
+    
+  if(_surge_time >= 0 && _sway_time >= 0){
+    ROS_INFO_STREAM("Performing surge with thrust: " << _surge_thrust << 
+                    " for time: " << _surge_time << " sec(s).\n" << 
+                    "Performing sway with thrust: " << _sway_thrust << 
+                    " for time: " << _sway_time << " sec(s).");
+    
+    state_.set_loc_.x = _surge_thrust;
+    state_.set_loc_.y = _sway_thrust;
+
+    if(_surge_time >= _sway_time){
+      spinningDelay(_sway_time);
+      state_.set_loc_.y = 0;
+      spinningDelay(_surge_time - _sway_time);
+      state_.set_loc_.x = 0;
+    }
+    else{
+      spinningDelay(_surge_time);
+      state_.set_loc_.x = 0;
+      spinningDelay(_sway_time - _surge_time);
+      state_.set_loc_.y = 0;
+    }
+
+    ROS_INFO_STREAM("Performed surge and sway.");
+  }
+  else{
+    ROS_WARN_STREAM("Negative time in doSurgeSway!");
+  }
+}

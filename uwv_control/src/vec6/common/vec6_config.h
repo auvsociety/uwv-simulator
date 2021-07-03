@@ -8,21 +8,13 @@
 
 #include <mutex>
 
+// Editable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 /// @brief If USE_DARKNET is defined, darknet_ros will be used
 // #define USE_DARKNET
 
-#define RAD2DEG 57.2957795131
-
-/// @brief Total number of thrusters present in vec6
-#define THRUSTER_NUM 6
-
-/// @brief Thruster location and index mapping
-#define F_PORT 0 
-#define F_STAR 1
-#define M_PORT 2
-#define M_STAR 3
-#define B_PORT 4
-#define B_STAR 5
+/// @brief Rate at which state of the bot is checked (hz)
+#define VEC6_SPIN_RATE 100
 
 /// Depth PID parameter topic names
 #define DEPTH_P_TOPIC "/uwv/vec6/depth_p"				
@@ -41,6 +33,26 @@
 #define DEPTH_TOPIC               "/uwv/vec6/sim_depth"
 #define IMU_TOPIC                 "/uwv/vec6/ekf_imu"
 #define BOUNDING_BOX_TOPIC        "/darknet_ros/bounding_boxes"
+
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+// Edit only if you know what you are doing >>>>>>>>>>>>>>>>>>>>
+
+/// @brief Macro to used in creating delay without blocking ROS communication
+#define GET_COUNTDOWN_TICKS(x) x*VEC6_SPIN_RATE
+
+#define RAD2DEG 57.2957795131
+
+/// @brief Total number of thrusters present in vec6
+#define THRUSTER_NUM 6
+
+/// @brief Thruster location and index mapping
+#define F_PORT 0 
+#define F_STAR 1
+#define M_PORT 2
+#define M_STAR 3
+#define B_PORT 4
+#define B_STAR 5
 
 /// @brief For thread safe sharing
 std::mutex g_mtx;

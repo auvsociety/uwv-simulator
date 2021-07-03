@@ -65,6 +65,55 @@ public:
    */ 
   void run();
 
+  /**
+   * @brief Blocks the thread while executing ros::spinOnce()
+   * @param _time Time for which this delay should occur (in seconds)
+   */
+  void spinningDelay(double _time);
+
+  /**
+   * @brief Performs yaw until the current position lies within the given sensitivity
+   * 
+   * @param _angle Set-point to be achieved
+   * @param _sensitivity SET_POINT +- sensitivity -> defines the range in which if the bot it, it is considered as successful
+   */ 
+  void doYaw(double _angle, double _sensitivity);
+
+  /**
+   * @brief Performs heave until the current position lies within the given sensitivity
+   * 
+   * @param _depth Set-point to be achieved
+   * @param _sensitivity SET_POINT +- sensitivity -> defines the range in which if the bot it, it is considered as successful
+   */
+  void doHeave(double _depth, double _sensitivity);
+
+  /**
+   * @brief Sets the given surge thrust for the given amount of time.
+   * 
+   * @param _surge_thrust Amount of surge thrust
+   * @param _surge_time Time (in seconds) for which the thrust should be active
+   */
+  void doSurge(double _surge_thrust, double _surge_time);
+
+  /**
+   * @brief Sets the given sway thrust for the given amount of time.
+   * 
+   * @param _sway_thrust Amount of sway thrust
+   * @param _sway_time Time (in seconds) for which the thrust should be active
+   */
+  void doSway(double _sway_thrust, double _sway_time);
+
+  /**
+   * @brief Sets the given surge and sway thrust simultaneously for 
+   * the time allocated to both of them
+   * 
+   * @param _surge_thrust Amount of surge thrust
+   * @param _surge_time Time (in seconds) for which the thrust should be active
+   * @param _sway_thrust Amount of sway thrust
+   * @param _sway_time Time (in seconds) for which the thrust should be active
+   */
+  void doSurgeAndSway(double _surge_thrust, double _surge_time, double _sway_thrust, double _sway_time);
+
   virtual void heavePid2Effort(double _pid_heave) = 0;
   virtual void vectoredPid2Effort(double _pid_yaw, double _pid_surge, double _pid_sway) = 0;
   virtual void sendCommands(void) = 0;
