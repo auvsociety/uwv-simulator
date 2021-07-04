@@ -8,3 +8,6 @@ Contains source files to implement remote control mode on **vec6**.
 
 | File name | Use-case |
 | --- | --- |
+| `rc_config.h` | Contains macros aiding in defining steps and ROS node name.|
+| `sim_remote_control.cpp` | A ROS node source file to control vec6 in ROV mode. |
+| `sim_remote_control.h` | Header file for `sim_remote_control.h`. | 

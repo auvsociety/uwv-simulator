@@ -10,6 +10,7 @@
 // Misc libraries
 #include "vec6_config.h"
 #include "stoppable_thread.h"
+#include <thread>
 
 /**
  * @brief Abstract class that controls the PID loop and configuration
@@ -26,15 +27,17 @@ public:
   /// @brief Yaw controller
   PidRotate yaw_controller_;
 
+  /// @brief PID thread to be controlled in the background
+  std::thread pid_thread_;
+
   Vec6Controller(){}
   virtual ~Vec6Controller(){}
 
   /**
-   * @brief Initializes the PID controllers, and updates the gain values.
-   * 
-   * @param node Reference to the node handle of the UWV's controller
+   * @brief Initializes the PID controllers, and updates the gain values. Not to be
+   * called by an instance.
    */
-  void initControllers(void);
+  void initPidControllers(void);
 
   /**
    * @brief Updates the PID gain values and sensitivity value from the 
@@ -58,6 +61,13 @@ public:
    * @brief Displays of PID gain and sensitivity values of all the controllers
    */ 
   void showPidsGains(void);
+
+  /**
+   * @brief Checks the PID thread and stops the thread if the vehicle is not
+   * traversing. Must be called everytime in the main-loop and at the end of the
+   * ROS node (before the main-thread stops)
+   */ 
+  void checkPidThread(void);
 
   /**
    * @brief Runs the PID loop in the background until 

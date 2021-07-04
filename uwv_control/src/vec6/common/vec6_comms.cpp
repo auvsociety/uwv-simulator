@@ -36,9 +36,7 @@ void Vec6Comms::initComms(ros::NodeHandle &_node, Vec6State& _vec6state){
 
 void Vec6Comms::depthCallbck(const geometry_msgs::PointStamped& _depth)
 {
-	g_mtx.lock();
   	state_->cur_loc_.z = -_depth.point.z; 		// negating to conform to accepted convention
-	g_mtx.unlock();
 }
 
 void Vec6Comms::imuCallbck(const sensor_msgs::Imu& imu_)
@@ -48,7 +46,6 @@ void Vec6Comms::imuCallbck(const sensor_msgs::Imu& imu_)
   double sqy = imu_.orientation.y * imu_.orientation.y;
   double sqz = imu_.orientation.z * imu_.orientation.z;
   
-  g_mtx.lock();
   state_->cur_orient_.roll = atan2(2.0 * (imu_.orientation.y * imu_.orientation.z + imu_.orientation.x * imu_.orientation.w),
                           (-sqx - sqy + sqz + sqw)) *
                     RAD2DEG;
@@ -58,14 +55,11 @@ void Vec6Comms::imuCallbck(const sensor_msgs::Imu& imu_)
   state_->cur_orient_.yaw = -atan2(2.0 * (imu_.orientation.x * imu_.orientation.y + imu_.orientation.z * imu_.orientation.w),
                          (sqx - sqy - sqz + sqw)) *
                    RAD2DEG; // negating to conform to accepted convention
-  g_mtx.unlock();
 }
 
 #ifdef USE_DARKNET
 void Vec6Comms::bbCallbck(const darknet_ros_msgs::BoundingBoxes& _bb)
 {
-  g_mtx.lock();
   bbxs_ = _bb;
-  g_mtx.unlock();
 }
 #endif

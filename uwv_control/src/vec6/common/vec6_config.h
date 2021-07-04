@@ -6,8 +6,6 @@
 #ifndef VEC6_CONFIG_H
 #define VEC6_CONFIG_H
 
-#include <mutex>
-
 // Editable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 /// @brief If USE_DARKNET is defined, darknet_ros will be used
@@ -17,21 +15,21 @@
 #define VEC6_SPIN_RATE 100
 
 /// Depth PID parameter topic names
-#define DEPTH_P_TOPIC "/uwv/vec6/depth_p"				
-#define DEPTH_I_TOPIC "/uwv/vec6/depth_i"				
-#define DEPTH_D_TOPIC "/uwv/vec6/depth_d"				
-#define DEPTH_SNSTVTY_TOPIC "/uwv/vec6/depth_snstvty"
+#define DEPTH_P_TOPIC "/vec6/depth_p"				
+#define DEPTH_I_TOPIC "/vec6/depth_i"				
+#define DEPTH_D_TOPIC "/vec6/depth_d"				
+#define DEPTH_SNSTVTY_TOPIC "/vec6/depth_snstvty"
 
 /// Yaw PID parameter topic names
-#define YAW_P_TOPIC "/uwv/vec6/yaw_p"
-#define YAW_I_TOPIC "/uwv/vec6/yaw_i"
-#define YAW_D_TOPIC "/uwv/vec6/yaw_d"
-#define YAW_SNSTVTY_TOPIC "/uwv/vec6/yaw_snstvty"
+#define YAW_P_TOPIC "/vec6/yaw_p"
+#define YAW_I_TOPIC "/vec6/yaw_i"
+#define YAW_D_TOPIC "/vec6/yaw_d"
+#define YAW_SNSTVTY_TOPIC "/vec6/yaw_snstvty"
 
 /// Message Topics
-#define THRUSTER_EFFORT_TOPIC     "/uwv/vec6/thruster_command"
-#define DEPTH_TOPIC               "/uwv/vec6/sim_depth"
-#define IMU_TOPIC                 "/uwv/vec6/ekf_imu"
+#define THRUSTER_EFFORT_TOPIC     "/vec6/thruster_command"
+#define DEPTH_TOPIC               "/vec6/sim_depth"
+#define IMU_TOPIC                 "/vec6/sim_imu"
 #define BOUNDING_BOX_TOPIC        "/darknet_ros/bounding_boxes"
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -53,9 +51,6 @@
 #define M_STAR 3
 #define B_PORT 4
 #define B_STAR 5
-
-/// @brief For thread safe sharing
-std::mutex g_mtx;
 
 /// @brief Structure to store roll, pitch, yaw (the orientation) of vec6
 struct Orientation

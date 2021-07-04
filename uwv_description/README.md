@@ -17,10 +17,10 @@ Contains files and models describing the underwater vehicle and the sensors atta
 
 | Namespace | Description |
 | --- | --- |
-| `/uwv/vec6` | Top level namespace containing all the topics related to sensor and control data to needed by **vec6** to complete it's tasks. |
-| `/uwv/vec6/sim_ground_truth` | Topic to which the ground truth values of the simulated `vec6_base_link` are published. |
-| `/uwv/vec6/sim_depth` | Topic to which simulated depth sensor values are published. |
-| `/uwv/vec6/sim_imu` | Topic to which simulated IMU values are published. |
+| `/vec6` | Top level namespace containing all the topics related to sensor and control data to needed by **vec6** to complete it's tasks. |
+| `/vec6/sim_ground_truth` | Topic to which the ground truth values of the simulated `vec6_base_link` are published. |
+| `/vec6/sim_depth` | Topic to which simulated depth sensor values are published. |
+| `/vec6/sim_imu` | Topic to which simulated IMU values are published. |
 
 <br/>
 

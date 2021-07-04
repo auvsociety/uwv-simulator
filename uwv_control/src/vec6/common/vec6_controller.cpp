@@ -1,6 +1,6 @@
 #include "vec6_controller.h"
 
-void Vec6Controller::initControllers()
+void Vec6Controller::initPidControllers()
 {
   // initialize controllers
   ROS_INFO_STREAM("Configuring PID controllers...");
@@ -118,6 +118,28 @@ void Vec6Controller::showPidsGains(void){
                   << "Depth sensitivity: " << depth_controller_.snstvty_ << std::endl);
 }
 
+void Vec6Controller::checkPidThread(void){
+  if(state_.is_traversing_){
+    // start the PID thread if the vehicle is in traversing mode and the
+    // thread has not yet been started
+    if(!pid_thread_.joinable()){
+      pid_thread_ = std::thread([&](){
+          reuseThread();
+          run();
+        });
+    }
+  }
+  else{
+    // stop the reusable thread
+    if(!stopRequested()){
+      stop();
+    }
+    if(pid_thread_.joinable()){
+      pid_thread_.join();
+    }
+  }
+}
+
 void Vec6Controller::run(){
   // variables for loop operation
   double prev_time = ros::Time::now().toSec();
@@ -158,6 +180,12 @@ void Vec6Controller::spinningDelay(double _time){
 }
 
 void Vec6Controller::doYaw(double _angle, double _sensitivity){
+  if (!state_.is_traversing_)
+  {
+    ROS_INFO_STREAM("vec6 is not in the traversing mode.");
+    return;
+  }
+
   state_.set_orient_.yaw = _angle;
 
   ROS_INFO_STREAM("Performing yaw... Set-point: " << _angle);
@@ -173,6 +201,12 @@ void Vec6Controller::doYaw(double _angle, double _sensitivity){
 }
 
 void Vec6Controller::doHeave(double _depth, double _sensitivity){
+  if (!state_.is_traversing_)
+  {
+    ROS_INFO_STREAM("vec6 is not in the traversing mode.");
+    return;
+  }
+
   state_.set_loc_.z = _depth;
 
   ROS_INFO_STREAM("Performing heave... Set-point: " << _depth);
@@ -188,6 +222,12 @@ void Vec6Controller::doHeave(double _depth, double _sensitivity){
 }
 
 void Vec6Controller::doSurge(double _surge_thrust, double _surge_time){
+  if (!state_.is_traversing_)
+  {
+    ROS_INFO_STREAM("vec6 is not in the traversing mode.");
+    return;
+  }
+
   if(_surge_thrust >= 0){
     /// @todo verify if the call to this function is required or not
     // allThrustersStop();
@@ -208,6 +248,12 @@ void Vec6Controller::doSurge(double _surge_thrust, double _surge_time){
 }
 
 void Vec6Controller::doSway(double _sway_thrust, double _sway_time){
+  if (!state_.is_traversing_)
+  {
+    ROS_INFO_STREAM("vec6 is not in the traversing mode.");
+    return;
+  }
+
   if(_sway_time >= 0){
     /// @todo verify if the call to this function is required or not
     // allThrustersStop();
@@ -229,6 +275,12 @@ void Vec6Controller::doSway(double _sway_thrust, double _sway_time){
 
 void Vec6Controller::doSurgeAndSway(double _surge_thrust, double _surge_time,
                                     double _sway_thrust, double _sway_time){
+  
+  if (!state_.is_traversing_)
+  {
+    ROS_INFO_STREAM("vec6 is not in the traversing mode.");
+    return;
+  }
     
   if(_surge_time >= 0 && _sway_time >= 0){
     ROS_INFO_STREAM("Performing surge with thrust: " << _surge_thrust << 

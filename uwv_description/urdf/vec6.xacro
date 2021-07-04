@@ -100,7 +100,7 @@
       <alwaysOn>true</alwaysOn>
       <updateRate>50.0</updateRate>
       <bodyName>vec6_base_link</bodyName>
-      <topicName>/uwv/vec6/sim_ground_truth</topicName>
+      <topicName>/vec6/sim_ground_truth</topicName>
       <gaussianNoise>0.0</gaussianNoise>
       <frameName>world</frameName>
       <xyzOffsets>0 0 0</xyzOffsets>
@@ -111,7 +111,7 @@
   <!-- ros_control plugin -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/uwv/vec6</robotNamespace>
+      <robotNamespace>/vec6</robotNamespace>
     </plugin>
   </gazebo>
 
@@ -371,7 +371,7 @@
   <gazebo>
 	  <plugin name='depth_plugin' filename='libplugin_depth.so'>
       <bodyName>depth_sensor</bodyName>
-      <depthTopicName>/uwv/vec6/sim_depth</depthTopicName>
+      <depthTopicName>/vec6/sim_depth</depthTopicName>
       <noise>0.01</noise>
 	  </plugin>
   </gazebo>
@@ -410,7 +410,7 @@
     <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
       <bodyName>imu_link</bodyName>
-      <topicName>/uwv/vec6/sim_imu</topicName>
+      <topicName>/vec6/sim_imu</topicName>
       <serviceName>imu_service</serviceName>
       <gaussianNoise>0.01</gaussianNoise>
       <updateRate>30.0</updateRate>

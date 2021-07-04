@@ -13,7 +13,7 @@ The **uwv-simulator** is an underwater vehicle (UWV) simulator developed by the 
 - The software stack is designed to execute the top-level algorithms both in the simulation and the hardware, with minor changes at low-level methods. The motivation for adopting this approach was to develop a framework that anyone willing to work on higher level problems like motion planning, etc. can easily do so without the need to worry about the lower-level logic.
 
 ### Packages
-1. [uwv_control] : Contains files related to controlling the underwater vehicle. It is the main ROS package from which launch files realted to testing and final implementation are executed.
+1. [uwv_control] : Contains files related to controlling the underwater vehicle. It is the main ROS package from which launch files related to testing and final implementation are executed.
 2. [uwv_description] : Contains files and models describing the underwater vehicle and the sensors attached to it.
 3. [uwv_env] : Contains files and models describing the environment.
 

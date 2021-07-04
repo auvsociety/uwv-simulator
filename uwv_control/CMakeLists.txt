@@ -31,8 +31,15 @@ if(CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
 endif()
 
-include_directories( 
+include_directories( include
                     ${Boost_INCLUDE_DIR}
                     ${catkin_INCLUDE_DIRS}
                     ${GAZEBO_INCLUDE_DIRS}
                     )
+
+# variables to aid easy creation of ROS nodes
+set(COMMON_SRC_FILE_DIR ${PROJECT_SOURCE_DIR}/src/common)
+set(COMMON_SRC_FILES  ${COMMON_SRC_FILE_DIR}/pid_rotate.cpp
+                      ${COMMON_SRC_FILE_DIR}/pid_translate.cpp)
+
+add_subdirectory(src/vec6)

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<arg name="vehicle" default="vec6"/>
+	<arg name="round" default="2"/>
+
+
+	<include file="$(find uwv_env)/launch/uwv_env.launch">
+		<arg name="environment" value="sauvc_pool"/>
+		<arg name="debug" value="false"/>
+		<arg name="gui" value="true"/>
+		<arg name="paused" value="true"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="verbose" value="true"/>
+	</include>
+
+	<group ns="/vec6" if="$(eval arg('vehicle')=='vec6')">
+		<rosparam file="$(find uwv_control)/config/pid_gains.yaml"/>
+	
+		<param name="robot_description" 
+			   command="$(find xacro)/xacro $(find uwv_description)/urdf/vec6.xacro" />
+
+		<node name="vec6_spawner" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model vec6 -param robot_description -x 8.5 -y -24.5 -Y 3.14"
+			if="$(eval arg('round')==1)"/>
+		<node name="vec6_spawner" 
+			pkg="gazebo_ros"
+			type="spawn_model" 
+			respawn="false"
+			output="screen"
+			args="-urdf -model vec6 -param robot_description -x 11.5 -y 4 -Y -1.5708"
+			if="$(eval arg('round')==2)"/>
+		
+	</group>
+
+</launch>

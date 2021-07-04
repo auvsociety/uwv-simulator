@@ -1,6 +1,8 @@
 #include "vec6_simcontroller.h"
 
 void Vec6SimController::initController(ros::NodeHandle& _node, double _max_thrust, double _beta){
+	initPidControllers();
+
 	// Setting default values
 	state_.max_thrust_ = _max_thrust;
 	state_.beta_ = _beta;
@@ -39,6 +41,10 @@ void Vec6SimController::initController(ros::NodeHandle& _node, double _max_thrus
 }
 
 void Vec6SimController::heavePid2Effort(double _pid_heave){
+	if (!state_.is_traversing_){
+		ROS_INFO_STREAM("vec6 is not in the traversing mode.");
+		return;
+	}
 	if(_pid_heave > state_.max_thrust_ - 8){
       _pid_heave = state_.max_thrust_ - 8; // limiting thrust
     }
@@ -47,6 +53,10 @@ void Vec6SimController::heavePid2Effort(double _pid_heave){
 }
 
 void Vec6SimController::vectoredPid2Effort(double _pid_surge, double _pid_yaw, double _pid_sway){
+	if (!state_.is_traversing_){
+		ROS_INFO_STREAM("vec6 is not in the traversing mode.");
+		return;
+  	}
 
 effort_.effort[F_PORT] = ((1-state_.beta_)/2)*state_.sys_mat_[0][0]*_pid_surge + state_.beta_*state_.sys_mat_[1][0]*_pid_yaw + ((1-state_.beta_)/2)*state_.sys_mat_[2][0]*_pid_sway;
 effort_.effort[F_STAR] = ((1-state_.beta_)/2)*state_.sys_mat_[0][1]*_pid_surge + state_.beta_*state_.sys_mat_[1][1]*_pid_yaw + ((1-state_.beta_)/2)*state_.sys_mat_[2][1]*_pid_sway;

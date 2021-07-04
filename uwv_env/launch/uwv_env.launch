@@ -21,7 +21,7 @@
 		<arg name="verbose" value="$(arg verbose)"/>
 	</include>
 	
-	<group ns="sauvc_pool" if="$(eval arg('environment')=='sauvc_pool')">
+	<group ns="/uwv/sauvc_pool" if="$(eval arg('environment')=='sauvc_pool')">
     	<param name="q_gate_description" 
 		 	command="$(find xacro)/xacro $(find uwv_env)/urdf/sauvc_pool/q_gate.xacro" />
 

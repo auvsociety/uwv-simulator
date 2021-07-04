@@ -5,3 +5,4 @@
 | File name | Use-case |
 | --- | --- |
 | `common` |  Contains source files that are common to any task that must be performed by **vec6** underwater vehicle. |
+| `remote_control` |  Contains source files that create a ROS node to control **vec6** underwater vehicle as a ROV. |
