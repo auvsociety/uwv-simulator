@@ -44,6 +44,11 @@ public:
    */ 
   double snstvty_;
 
+  /// @brief Upper and lower integral windup limit; must be positive real number
+  double int_windup_limit_;
+
+  /// @brief Upper and lower PID output limits; must be positive real number
+  double output_limit_;
 
   /**
    * @brief Runs the PID loop once

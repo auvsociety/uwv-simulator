@@ -6,6 +6,12 @@ PidRotate::PidRotate()
   kd_ = 5.0;
   ki_ = 0.01;
   snstvty_ = 0.002;
+  int_windup_limit_ = 5;
+  output_limit_ = 32;
+
+  p_ = 0;
+  i_ = 0;
+  d_ = 0;
 }
 
 double PidRotate::update(double _set_point, double _cur_state, double _dt)
@@ -20,12 +26,21 @@ double PidRotate::update(double _set_point, double _cur_state, double _dt)
   else if(abs_p > 180) p_ = copysign(360 - abs_p, -p_);
   
   i_ = i_ + _dt * p_;          // i -> sum of prev errors
+
+  // anti-windup
+  if(fabs(ki_ * i_) >= int_windup_limit_){
+    i_ = int_windup_limit_/ki_;
+  }
+
   d_ = (p_ - prev_err_) / _dt;  // d -> rate of error
 
   prev_err_ = p_;
 
   // update control output
   output_ = kp_ * p_ + kd_ * d_ + ki_ * i_;
+  if(fabs(output_) >= output_limit_){
+    output_ = output_limit_;
+  }
 
   return output_;
 }

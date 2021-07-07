@@ -6,6 +6,9 @@ PidTranslate::PidTranslate()
   kd_ = 5.0;
   ki_ = 0.01;
   snstvty_ = 0.002;
+  int_windup_limit_ = 5;
+  output_limit_ = 32;
+
   p_ = 0;
   i_ = 0;
   d_ = 0;
@@ -17,17 +20,27 @@ double PidTranslate::update(double _set_point, double _cur_state, double _dt)
 
   // update proportional, differential and integral errors
   p_ = _set_point - _cur_state;  // current error
-  if (fabs(p_) <= snstvty_)
+  if (fabs(p_) <= snstvty_){
     p_ = 0.0;
+  }
+
   i_ = i_ + _dt * p_;          // i -> sum of prev errors
+  
+  // anti-windup
+  if(fabs(ki_ * i_) >= int_windup_limit_){
+    i_ = int_windup_limit_/ki_;
+  }
+
   d_ = (p_ - prev_err_) / _dt;  // d -> rate of error
 
-  // std::cout << "p: " << kp_ * p_ << std::endl;   // debugging
 
   prev_err_ = p_;
 
   // update control output
   output_ = kp_ * p_ + kd_ * d_ + ki_ * i_;
+  if(fabs(output_) >= output_limit_){
+    output_ = output_limit_;
+  }
 
   return output_;
 }
