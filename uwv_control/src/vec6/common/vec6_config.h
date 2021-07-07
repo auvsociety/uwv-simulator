@@ -19,12 +19,16 @@
 #define DEPTH_I_TOPIC "/vec6/depth_i"				
 #define DEPTH_D_TOPIC "/vec6/depth_d"				
 #define DEPTH_SNSTVTY_TOPIC "/vec6/depth_snstvty"
+#define DEPTH_WINDUP_TOPIC "/vec6/depth_windup"
+#define DEPTH_OUT_LIMIT_TOPIC "/vec6/depth_pid_out_limit"
 
 /// Yaw PID parameter topic names
 #define YAW_P_TOPIC "/vec6/yaw_p"
 #define YAW_I_TOPIC "/vec6/yaw_i"
 #define YAW_D_TOPIC "/vec6/yaw_d"
 #define YAW_SNSTVTY_TOPIC "/vec6/yaw_snstvty"
+#define YAW_WINDUP_TOPIC "/vec6/yaw_windup"
+#define YAW_OUT_LIMIT_TOPIC "/vec6/yaw_pid_out_limit"
 
 /// Message Topics
 #define THRUSTER_EFFORT_TOPIC     "/vec6/thruster_command"

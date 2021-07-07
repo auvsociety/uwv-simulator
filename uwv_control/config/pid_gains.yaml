@@ -2,7 +2,12 @@ depth_p: 22
 depth_i: 5
 depth_d: 3
 depth_snstvty: 0.001
+depth_windup: 5
+depth_pid_out_limit: 32
+
 yaw_p: 10
 yaw_i: 5
 yaw_d: 3
 yaw_snstvty: 0.001
+yaw_windup: 5
+yaw_pid_out_limit: 32

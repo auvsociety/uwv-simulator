@@ -57,6 +57,26 @@ void Vec6Controller::updatePidsGains(void)
     depth_controller_.snstvty_ = 0.01;
   }
 
+  if (ros::param::has(DEPTH_WINDUP_TOPIC))
+  {
+    ros::param::get(DEPTH_WINDUP_TOPIC, depth_controller_.int_windup_limit_);
+  }
+  else
+  {
+    ROS_WARN_STREAM("Did not find parameter: " << DEPTH_WINDUP_TOPIC << " Using default value: 5");
+    depth_controller_.int_windup_limit_ = 5;
+  }
+
+  if (ros::param::has(DEPTH_OUT_LIMIT_TOPIC))
+  {
+    ros::param::get(DEPTH_OUT_LIMIT_TOPIC, depth_controller_.output_limit_);
+  }
+  else
+  {
+    ROS_WARN_STREAM("Did not find parameter: " << DEPTH_OUT_LIMIT_TOPIC << " Using default value: 32");
+    depth_controller_.output_limit_ = 32;
+  }
+
   // Yaw
   if (ros::param::has(YAW_P_TOPIC))
   {
@@ -98,6 +118,26 @@ void Vec6Controller::updatePidsGains(void)
     yaw_controller_.snstvty_ = 0.01;
   }
 
+  if (ros::param::has(YAW_WINDUP_TOPIC))
+  {
+    ros::param::get(YAW_WINDUP_TOPIC, yaw_controller_.int_windup_limit_);
+  }
+  else
+  {
+    ROS_WARN_STREAM("Did not find parameter: " << YAW_WINDUP_TOPIC << " Using default value: 5");
+    yaw_controller_.int_windup_limit_ = 5;
+  }
+
+  if (ros::param::has(YAW_OUT_LIMIT_TOPIC))
+  {
+    ros::param::get(YAW_OUT_LIMIT_TOPIC, yaw_controller_.output_limit_);
+  }
+  else
+  {
+    ROS_WARN_STREAM("Did not find parameter: " << YAW_OUT_LIMIT_TOPIC << " Using default value: 32");
+    yaw_controller_.output_limit_ = 32;
+  }
+
   ROS_INFO_STREAM("Updated PID and sensitivity values.");
 }
 
@@ -111,11 +151,15 @@ void Vec6Controller::showPidsGains(void){
   ROS_INFO_STREAM("\nYaw P gain: " << yaw_controller_.kp_ << std::endl
                   << "Yaw I gain: " << yaw_controller_.ki_ << std::endl
                   << "Yaw D gain: " << yaw_controller_.kd_ << std::endl
-                  << "Yaw sensitivity: " << yaw_controller_.snstvty_ << std::endl);
+                  << "Yaw sensitivity: " << yaw_controller_.snstvty_ << std::endl
+                  << "Yaw integral windup limit: " << yaw_controller_.int_windup_limit_ << std::endl
+                  << "Yaw output limit: " << yaw_controller_.output_limit_ << std::endl);
   ROS_INFO_STREAM("\nDepth P gain: " << depth_controller_.kp_ << std::endl
                   << "Depth I gain: " << depth_controller_.ki_ << std::endl
                   << "Depth D gain: " << depth_controller_.kd_ << std::endl
-                  << "Depth sensitivity: " << depth_controller_.snstvty_ << std::endl);
+                  << "Depth sensitivity: " << depth_controller_.snstvty_ << std::endl
+                  << "Depth integral windup limit: " << depth_controller_.int_windup_limit_ << std::endl
+                  << "Depth output limit: " << depth_controller_.output_limit_ << std::endl);
 }
 
 void Vec6Controller::checkPidThread(void){

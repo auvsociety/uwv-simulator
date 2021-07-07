@@ -45,9 +45,6 @@ void Vec6SimController::heavePid2Effort(double _pid_heave){
 		ROS_INFO_STREAM("vec6 is not in the traversing mode.");
 		return;
 	}
-	if(_pid_heave > state_.max_thrust_ - 8){
-      _pid_heave = state_.max_thrust_ - 8; // limiting thrust
-    }
     effort_.effort[M_PORT] = _pid_heave;
     effort_.effort[M_STAR] = _pid_heave;
 }

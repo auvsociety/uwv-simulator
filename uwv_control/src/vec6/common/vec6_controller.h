@@ -44,7 +44,8 @@ public:
    * ROS parameter server. Default values are used if parameters are 
    * not set.
    * 
-   * Default: p: 10 | i: 0.1 | d: 0.5 | snstvty: 0.01
+   * Default: kp: 10 | ki: 0.1 | kd: 0.5 | snstvty: 0.01 | integral windup limit: 5 |
+   * maximum pid output: 32
    */
   void updatePidsGains(void);
 
