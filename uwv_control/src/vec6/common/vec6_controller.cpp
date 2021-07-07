@@ -229,8 +229,7 @@ void Vec6Controller::doSurge(double _surge_thrust, double _surge_time){
   }
 
   if(_surge_thrust >= 0){
-    /// @todo verify if the call to this function is required or not
-    // allThrustersStop();
+    allThrustersStop();
 
     state_.set_loc_.x = _surge_thrust;
     ROS_INFO_STREAM("Performing surge with thrust: " << _surge_thrust << 
@@ -255,8 +254,7 @@ void Vec6Controller::doSway(double _sway_thrust, double _sway_time){
   }
 
   if(_sway_time >= 0){
-    /// @todo verify if the call to this function is required or not
-    // allThrustersStop();
+    allThrustersStop();
 
     state_.set_loc_.y = _sway_thrust;
     ROS_INFO_STREAM("Performing sway with thrust: " << _sway_thrust << 

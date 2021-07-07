@@ -10,7 +10,7 @@ Contains files related to controlling the underwater vehicle. It is the main ROS
 
 2. To control the vehicle in ROV mode
 	```bash
-	rorun uwv_control sim_remote_control
+	rosrun uwv_control sim_remote_control
 	```
 
 

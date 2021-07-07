@@ -23,7 +23,7 @@ void Vec6Comms::initComms(ros::NodeHandle &_node, Vec6State& _vec6state){
 
 	#ifdef USE_DARKNET
 	bb_sub_ = _node.subscribe(bounding_box_topic_, 1, &Vec6Comms::bbCallbck, this);
-	if (cam_subs_){
+	if (bb_sub_){
 		ROS_INFO_STREAM("Subscribed to topic: " << bounding_box_topic_);
 	}
 	else{
