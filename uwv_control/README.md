@@ -13,6 +13,11 @@ Contains files related to controlling the underwater vehicle. It is the main ROS
 	rosrun uwv_control sim_remote_control
 	```
 
+3. To execute a sample set of simple tasks
+	```bash
+	rosrun uwv_control sim_sampletasks_exe
+	```
+
 
 <br/>
 

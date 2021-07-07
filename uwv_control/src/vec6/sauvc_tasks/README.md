@@ -13,5 +13,5 @@ The source files present in this directory generate a ROS node capable of perfor
 | `tasks.h` | Header file for `tasks.cpp`. |
 | `sim_task_list.cpp` | Contains classes that define the tasks to be executed for the simulation environment.  |
 | `sim_task_list.h` | Header file for `sim_task_list.cpp`. |
-
-## Usage
+| `sim_sampletasks_exe.cpp` | Contains an example implementation of usage and execution of tasks using the provided classes.  |
+| `sim_sampletasks_exe.h` | Header file for `sim_sampletasks_exe.cpp`. |
