@@ -25,21 +25,28 @@ double PidTranslate::update(double _set_point, double _cur_state, double _dt)
   }
 
   i_ = i_ + _dt * p_;          // i -> sum of prev errors
-  
-  // anti-windup
-  if(fabs(ki_ * i_) >= int_windup_limit_){
-    i_ = int_windup_limit_/ki_;
-  }
 
   d_ = (p_ - prev_err_) / _dt;  // d -> rate of error
 
-
   prev_err_ = p_;
+
+  // anti-windup
+  double temp = ki_ * i_; 
+  if(i_ >= 0 && temp >= int_windup_limit_){
+    i_ = int_windup_limit_/ki_;
+  }
+  else if(i_ < 0 && temp <= -int_windup_limit_){
+    i_ = -int_windup_limit_/ki_;
+  }
 
   // update control output
   output_ = kp_ * p_ + kd_ * d_ + ki_ * i_;
-  if(fabs(output_) >= output_limit_){
+
+  if(output_ >= 0 && output_ >= output_limit_){
     output_ = output_limit_;
+  }
+  else if(output_ < 0 && output_ <= -output_limit_){
+    output_ = -output_limit_;
   }
 
   return output_;

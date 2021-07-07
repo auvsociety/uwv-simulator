@@ -20,26 +20,34 @@ double PidRotate::update(double _set_point, double _cur_state, double _dt)
 
   // update proportional, differential and integral errors
   p_ = _set_point - _cur_state;  // current error
-  double abs_p = fabs(p_);
+  double temp = fabs(p_);
   if (fabs(p_) <= snstvty_)
     p_ = 0.0;
-  else if(abs_p > 180) p_ = copysign(360 - abs_p, -p_);
+  else if(temp > 180) p_ = copysign(360 - temp, -p_);
   
   i_ = i_ + _dt * p_;          // i -> sum of prev errors
-
-  // anti-windup
-  if(fabs(ki_ * i_) >= int_windup_limit_){
-    i_ = int_windup_limit_/ki_;
-  }
 
   d_ = (p_ - prev_err_) / _dt;  // d -> rate of error
 
   prev_err_ = p_;
 
+  // anti-windup
+  temp = ki_ * i_; 
+  if(i_ >= 0 && temp >= int_windup_limit_){
+    i_ = int_windup_limit_/ki_;
+  }
+  else if(i_ < 0 && temp <= -int_windup_limit_){
+    i_ = -int_windup_limit_/ki_;
+  }
+
   // update control output
   output_ = kp_ * p_ + kd_ * d_ + ki_ * i_;
-  if(fabs(output_) >= output_limit_){
+
+  if(output_ >= 0 && output_ >= output_limit_){
     output_ = output_limit_;
+  }
+  else if(output_ < 0 && output_ <= -output_limit_){
+    output_ = -output_limit_;
   }
 
   return output_;
