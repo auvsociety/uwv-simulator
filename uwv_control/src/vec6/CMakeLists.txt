@@ -13,3 +13,4 @@ set(COMMON_VEC6_HARDWARE_FILES  ${COMMON_VEC6_FILE_DIR}/terminal_getch.cpp
 								${COMMON_VEC6_FILE_DIR}/vec6_hardwarecontroller.cpp)
 
 add_subdirectory(remote_control)
+add_subdirectory(sauvc_tasks)
