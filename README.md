@@ -17,7 +17,7 @@ The **uwv-simulator** is an underwater vehicle (UWV) simulator developed by the 
 2. [uwv_description] : Contains files and models describing the underwater vehicle and the sensors attached to it.
 3. [uwv_env] : Contains files and models describing the environment.
 
-### Usage
+### Installation
 To make use of the repository and the components present in it, follow the subsequent steps:
 
 1. Create a new `catkin_workspace` named `uwv_ws` (Recommended)
@@ -36,7 +36,9 @@ To make use of the repository and the components present in it, follow the subse
 	git clone https://github.com/auvsocietyiiitdm/uwv-simulator.git
 	```
 
-4. TODO: Add instructions to install `darknet_ros`
+4. Follow the instructions presented [here](https://github.com/auvsocietyiiitdm/darknet_ros.git) to install `darknet_ros` for `uwv-simulator`.
+
+5. (optional) Obtain our utility tool, [uwv-launcher] to create the SAUVC pool environment.
 
 ### Navigate
 1. [uwv_control](./uwv_control)
@@ -58,3 +60,4 @@ Due to the outbreak of COVID-19, development of an AUV without having access to 
 [uwv_env]: ./uwv_env/README.md
 [freefloating-gazebo]: https://github.com/freefloating-gazebo/freefloating_gazebo
 [sauvc-simulations]: https://github.com/auvsocietyiiitdm/sauvc-simulations
+[uwv-launcher]: https://github.com/auvsocietyiiitdm/uwv-launcher.git
