@@ -1,5 +1,10 @@
 # uwv-simulator
 
+## Citation
+Use the following snippet to cite our work:
+
+M. N. Mehta, S. Mylraj and V. N. Bhate, "Development of AUV for SAUVC During COVID-19," OCEANS 2021: San Diego – Porto, 2021, pp. 1-8, doi: 10.23919/OCEANS44145.2021.9705822.
+
 ## Repository Overview
 The **uwv-simulator** is an underwater vehicle (UWV) simulator developed by the [AUV Society], IIITDM Kancheepuram, India. This repository contains a compilation of ROS packages that aid in the development of an underwater vehicle. This simulation test-bed can used to implement, test, and get feedback on the control and vision algorithms for an underwater vehicle. 
 
