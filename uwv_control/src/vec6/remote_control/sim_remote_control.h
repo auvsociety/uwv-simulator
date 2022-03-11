@@ -11,7 +11,7 @@
 #include "rc_config.h"
 #include <thread>
 #include <csignal>
-#include "terminal_getch.h"
+#include "ncurses.h"
 
 /// @brief Instance of the underwater vehicle (UWV)'s controller
 Vec6SimController g_vec6;

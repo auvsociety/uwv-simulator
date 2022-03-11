@@ -14,9 +14,6 @@ void readInput(void){
         g_vec6.allThrustersStop();
         g_do_not_quit = false;
         break;
-      case 'Z':
-        displayHelp();
-        break;
 
       // Start/stop traversing
       case 't':
@@ -105,25 +102,26 @@ void readInput(void){
 
 void displayHelp(void)
 {
-  std::cout << "\nUse the following commands: " << std::endl
-            << "t: Start/Stop traversing" << std::endl
-            << "--- Motion Commands ---" << std::endl
-            << "W: Heave down by " << HEAVE_PLUS << " m" << std::endl
-            << "Q: Heave up by " << HEAVE_MINUS << " m" << std::endl
-            << "d: Positive yaw by " << YAW_PLUS << " deg" << std::endl
-            << "a: Negative yaw by " << YAW_MINUS << " deg" << std::endl
-            << "w: Surge+ by " << SURGE_PLUS << std::endl
-            << "s: Surge- by " << SURGE_MINUS << std::endl
-            << "e: Sway+ by " << SWAY_PLUS << std::endl
-            << "q: Sway- by " << SWAY_MINUS << std::endl
-            << "S: Stop thrusters (stops only surge and sway in traversing mode)" << std::endl
-            << "--- Parameter settings ---" << std::endl
-            << "p: Show all PID parameters" << std::endl
-            << "P: Refresh PID configuration" << std::endl
-            << "-----" << std::endl
-            << "H: Display help" << std::endl
-            << "X: Quit\n"
-            << std::endl;
+  printw   (  "\nUse the following commands: \n" 
+             "t: Start/Stop traversing \n" 
+             "--- Motion Commands --- \n" 
+             "W: Heave down by  %d  m \n" 
+             "Q: Heave up by %d m \n" 
+             "d: Positive yaw by %d deg \n" 
+             "a: Negative yaw by %d deg \n" 
+             "w: Surge+ by %d  \n" 
+             "s: Surge- by %d  \n" 
+             "e: Sway+ by %d  \n" 
+             "q: Sway- by %d \n" 
+             "S: Stop thrusters (stops only surge and sway in traversing mode) \n" 
+             "--- Parameter settings --- \n" 
+             "p: Show all PID parameters \n" 
+             "P: Refresh PID configuration \n" 
+             "----- \n" 
+             "H: Display help \n" 
+             "X: Quit\n",
+             HEAVE_MINUS,HEAVE_PLUS,YAW_PLUS,YAW_MINUS,SURGE_PLUS,SURGE_MINUS,SWAY_PLUS,SWAY_MINUS );
+                                                                                                    
 }
 
 int main(int argc, char** argv)
@@ -137,6 +135,10 @@ int main(int argc, char** argv)
 
   // initialize the underwater vehicle controller
   g_vec6.initController(nh, 40, 0.4);
+
+  initscr();
+  raw();
+  noecho();
 
   displayHelp();
 
