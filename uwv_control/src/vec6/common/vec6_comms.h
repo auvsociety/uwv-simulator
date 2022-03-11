@@ -11,6 +11,7 @@
 #include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/JointState.h>
+#include <uwv_control/floatMultiArray.h"
 
 #ifdef USE_DARKNET
 #include "darknet_ros_msgs/BoundingBoxes.h"
@@ -27,6 +28,7 @@ public:
 	const std::string effort_topic_ = THRUSTER_EFFORT_TOPIC;
 	const std::string depth_topic_ = DEPTH_TOPIC;
 	const std::string imu_topic_ = IMU_TOPIC;
+	const std::string pwm_topic  = PWM_TOPIC;
 	#ifdef USE_DARKNET
 	const std::string bounding_box_topic_ = BOUNDING_BOX_TOPIC;
 	#endif
@@ -37,6 +39,8 @@ public:
 	/// @brief Thruster effort publisher
 	ros::Publisher effort_pub_;
 
+    /// @brief THruster PWM Publisher
+	ros::Publisher uwv_control::floatMultiArray pwm_pub_;
 	/// @brief Depth data subscriber
 	ros::Subscriber depth_sub_;
 
