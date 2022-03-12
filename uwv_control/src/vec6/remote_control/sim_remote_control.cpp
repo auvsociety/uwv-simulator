@@ -13,6 +13,7 @@ void readInput(void){
         g_vec6.state_.is_traversing_ = false;
         g_vec6.allThrustersStop();
         g_do_not_quit = false;
+        endwin();
         break;
 
       // Start/stop traversing
@@ -169,5 +170,6 @@ int main(int argc, char** argv)
 // signal handler
 void signalHandler(int signum)
 {
+  endwin();
   ROS_INFO_STREAM("[!] Press X to quit\n");
 }
