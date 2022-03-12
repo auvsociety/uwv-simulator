@@ -40,7 +40,7 @@ public:
 	ros::Publisher effort_pub_;
 
     /// @brief THruster PWM Publisher
-	ros::Publisher uwv_control::floatMultiArray pwm_pub_;
+	ros::Publisher  pwm_pub_;
 	/// @brief Depth data subscriber
 	ros::Subscriber depth_sub_;
 
