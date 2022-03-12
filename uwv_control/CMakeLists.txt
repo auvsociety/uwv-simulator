@@ -11,8 +11,13 @@ find_package(catkin REQUIRED COMPONENTS
               geometry_msgs 
               cv_bridge
               nav_msgs
+              message_generation
               # darknet_ros_msgs
               )
+add_message_files( FILES
+                   floatMultiArray.msg
+)
+generate_messages()
 catkin_package(CATKIN_DEPENDS roscpp 
                               std_msgs 
                               sensor_msgs 

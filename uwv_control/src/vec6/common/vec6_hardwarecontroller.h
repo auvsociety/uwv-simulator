@@ -7,7 +7,7 @@
 #include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/JointState.h>
-#include <uwv_control/floatMultiArray.h>
+#include "uwv_control/floatMultiArray.h"
 
 #include "vec6_config.h"
 #include "vec6_controller.h"
