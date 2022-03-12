@@ -1,11 +1,11 @@
-#ifndef SIM_REMOTE_CONTROL_H
-#define SIM_REMOTE_CONTROL_H
+#ifndef HARDWARE_REMOTE_CONTROL_H
+#define HARDWARE_REMOTE_CONTROL_H
 
 // ROS libraries
 #include <ros/ros.h>
 
 // Control library
-#include "vec6_simcontroller.h"
+#include "vec6_hardwarecontroller.h"
 
 // Misc libraries
 #include "rc_config.h"
@@ -14,7 +14,7 @@
 #include "ncurses.h"
 
 /// @brief Instance of the underwater vehicle (UWV)'s controller
-Vec6SimController g_vec6;
+Vec6HardwareController g_vec6;
 
 /// @brief Indicates whether the user wishes to quit the ROS node or not
 bool g_do_not_quit = true;

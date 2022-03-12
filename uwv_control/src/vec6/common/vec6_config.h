@@ -34,6 +34,7 @@
 #define THRUSTER_EFFORT_TOPIC     "/vec6/thruster_command"
 #define DEPTH_TOPIC               "/vec6/sim_depth"
 #define IMU_TOPIC                 "/vec6/sim_imu"
+#define PWM_TOPIC                 "/vec6/pwm"
 #define BOUNDING_BOX_TOPIC        "/darknet_ros/bounding_boxes"
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -47,6 +48,10 @@
 
 /// @brief Total number of thrusters present in vec6
 #define THRUSTER_NUM 6
+
+/// @brief Thruster PWM parameters
+#define MAX_THRUST_PWM        1900
+#define ZERO_THRUST_PWM       1500
 
 /// @brief Thruster location and index mapping
 #define F_PORT 0 
