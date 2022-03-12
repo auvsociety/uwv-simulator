@@ -72,7 +72,7 @@ void Vec6HardwareController::effort2PWM(){
 }
 void Vec6HardwareController::sendCommands(void){
    effort2PWM();
-   Vec6Comms.pwm_pub_.publish(pwm_);
+   vec6Comms.pwm_pub_.publish(pwm_);
 }
 
 void Vec6HardwareController::allThrustersStop(void)
