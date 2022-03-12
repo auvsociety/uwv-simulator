@@ -7,6 +7,7 @@
 #include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/JointState.h>
+#include <uwv_control/floatMultiArray.h>
 
 #include "vec6_config.h"
 #include "vec6_controller.h"
@@ -20,8 +21,10 @@ public:
 	/// sub-systems
 	Vec6Comms vec6Comms;
 
-	/// @brief Effort message
+	/// @brief Effort and pwm messages
 	sensor_msgs::JointState effort_;
+	uwv_control::floatMultiArray pwm_;
+
 
 	/**
 	 * @brief Initializes the controller and the variables.
@@ -53,6 +56,12 @@ public:
 	 * @param _pid_sway Output of sway PID/manual sway effort
 	 */
 	void vectoredPid2Effort(double _pid_yaw, double _pid_surge, double _pid_sway) override;
+
+
+	/**
+	 * @brief Converts effort to PWM
+	 */
+	 void effort2PWM();
 
 	/**
 	 * @brief Publishes the commands

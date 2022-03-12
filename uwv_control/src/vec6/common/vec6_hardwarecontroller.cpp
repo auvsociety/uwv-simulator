@@ -46,8 +46,14 @@ void Vec6HardwareController::vectoredPid2Effort(double _pid_surge, double _pid_y
 	ROS_ERROR_STREAM("vec6's HardwareController NOT FULLY DEFINED.");
 }
 
+void Vec6HardwareController::effort2PWM(){
+
+	for(int i = 0; i < THRUSTER_NUM; i++)
+		pwm_.values[i] = ZERO_THRUST_PWM + ( ( effort_.effort[i]/max_thrust_ ) * (MAX_THRUST_PWM - ZERO_THRUST_PWM) );
+}
 void Vec6HardwareController::sendCommands(void){
-  ROS_ERROR_STREAM("vec6's HardwareController NOT FULLY DEFINED.");
+   effort2PWM();
+   pwm_pub_.publish(pwm_);
 }
 
 void Vec6HardwareController::allThrustersStop(void)
